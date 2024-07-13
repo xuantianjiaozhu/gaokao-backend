@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szw.gaokaobackend.mapper.EnrollmentPlanMapper">
+
+    <resultMap id="BaseResultMap" type="com.szw.gaokaobackend.model.EnrollmentPlan">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="schoolId" column="school_id" jdbcType="INTEGER"/>
+            <result property="schoolName" column="school_name" jdbcType="VARCHAR"/>
+            <result property="city" column="city" jdbcType="VARCHAR"/>
+            <result property="year" column="year" jdbcType="INTEGER"/>
+            <result property="wenli" column="wenli" jdbcType="VARCHAR"/>
+            <result property="pici" column="pici" jdbcType="VARCHAR"/>
+            <result property="subjectName" column="subject_name" jdbcType="VARCHAR"/>
+            <result property="enrollmentNumber" column="enrollment_number" jdbcType="VARCHAR"/>
+            <result property="studyYear" column="study_year" jdbcType="VARCHAR"/>
+            <result property="tuition" column="tuition" jdbcType="VARCHAR"/>
+            <result property="subjectRequirements" column="subject_requirements" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,school_id,school_name,
+        city,year,wenli,
+        pici,subject_name,enrollment_number,
+        study_year,tuition,subject_requirements
+    </sql>
+</mapper>

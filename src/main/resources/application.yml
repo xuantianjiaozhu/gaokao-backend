@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: gaokao-backend
+
+server:
+  port: 3002
