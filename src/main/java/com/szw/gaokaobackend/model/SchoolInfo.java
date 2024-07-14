@@ -67,7 +67,4 @@ public class SchoolInfo implements Serializable {
      */
     @TableField(value = "detail")
     private String detail;
-
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }

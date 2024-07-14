@@ -85,7 +85,4 @@ public class SchoolScore implements Serializable {
      */
     @TableField(value = "subject_requirements")
     private String subjectRequirements;
-
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }
