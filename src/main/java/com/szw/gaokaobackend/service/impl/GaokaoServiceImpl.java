@@ -1,5 +1,7 @@
 package com.szw.gaokaobackend.service.impl;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.szw.gaokaobackend.model.QueryParam;
 import com.szw.gaokaobackend.model.QueryResult;
@@ -23,6 +25,19 @@ public class GaokaoServiceImpl implements GaokaoService {
     private SchoolScoreService schoolScoreService;
     @Autowired
     private SubjectScoreService subjectScoreService;
+
+
+    @Override
+    public String chatProcess(String prompt) {
+        // TODO: 根据 prompt 获取到 queryParamList 的 json
+        String queryParamListJson = "[]";
+        List<QueryParam> queryParamList = JSON.parseArray(queryParamListJson, QueryParam.class);
+        QueryResult queryResult = getInfoForLLM(queryParamList);
+        String queryResultJson = JSON.toJSONString(queryResult);
+        // TODO: 将 queryResultJson 返回给 LLM
+
+        return "";
+    }
 
     @Override
     public QueryResult getInfoForLLM(List<QueryParam> queryParamList) {

@@ -21,20 +21,20 @@ public class QueryUtils {
     public static final Map<String, SFunction<SubjectScore, ?>> subjectScoreMap = new HashMap<>();
 
     static {
-        enrollmentPlanFieldMap.put("schoolId", EnrollmentPlan::getSchoolId);
-        enrollmentPlanFieldMap.put("schoolName", EnrollmentPlan::getSchoolName);
+        enrollmentPlanFieldMap.put("school_id", EnrollmentPlan::getSchoolId);
+        enrollmentPlanFieldMap.put("school_name", EnrollmentPlan::getSchoolName);
         enrollmentPlanFieldMap.put("city", EnrollmentPlan::getCity);
         enrollmentPlanFieldMap.put("year", EnrollmentPlan::getYear);
         enrollmentPlanFieldMap.put("wenli", EnrollmentPlan::getWenli);
         enrollmentPlanFieldMap.put("pici", EnrollmentPlan::getPici);
-        enrollmentPlanFieldMap.put("subjectName", EnrollmentPlan::getSubjectName);
-        enrollmentPlanFieldMap.put("enrollmentNumber", EnrollmentPlan::getEnrollmentNumber);
-        enrollmentPlanFieldMap.put("studyYear", EnrollmentPlan::getStudyYear);
+        enrollmentPlanFieldMap.put("subject_name", EnrollmentPlan::getSubjectName);
+        enrollmentPlanFieldMap.put("enrollment_number", EnrollmentPlan::getEnrollmentNumber);
+        enrollmentPlanFieldMap.put("study_year", EnrollmentPlan::getStudyYear);
         enrollmentPlanFieldMap.put("tuition", EnrollmentPlan::getTuition);
-        enrollmentPlanFieldMap.put("subjectRequirements", EnrollmentPlan::getSubjectRequirements);
+        enrollmentPlanFieldMap.put("subject_requirements", EnrollmentPlan::getSubjectRequirements);
 
         schoolInfoMap.put("schoolId", SchoolInfo::getSchoolId);
-        schoolInfoMap.put("schoolName", SchoolInfo::getSchoolName);
+        schoolInfoMap.put("school_name", SchoolInfo::getSchoolName);
         schoolInfoMap.put("tags", SchoolInfo::getTags);
         schoolInfoMap.put("address", SchoolInfo::getAddress);
         schoolInfoMap.put("website", SchoolInfo::getWebsite);
@@ -42,33 +42,33 @@ public class QueryUtils {
         schoolInfoMap.put("shisu", SchoolInfo::getShisu);
         schoolInfoMap.put("detail", SchoolInfo::getDetail);
 
-        schoolScoreMap.put("schoolId", SchoolScore::getSchoolId);
-        schoolScoreMap.put("schoolName", SchoolScore::getSchoolName);
+        schoolScoreMap.put("school_id", SchoolScore::getSchoolId);
+        schoolScoreMap.put("school_name", SchoolScore::getSchoolName);
         schoolScoreMap.put("city", SchoolScore::getCity);
         schoolScoreMap.put("year", SchoolScore::getYear);
         schoolScoreMap.put("wenli", SchoolScore::getWenli);
-        schoolScoreMap.put("admissionBatch", SchoolScore::getAdmissionBatch);
-        schoolScoreMap.put("enrollmentType", SchoolScore::getEnrollmentType);
-        schoolScoreMap.put("minScorePosition", SchoolScore::getMinScorePosition);
-        schoolScoreMap.put("provinceControlLine", SchoolScore::getProvinceControlLine);
-        schoolScoreMap.put("majorGroup", SchoolScore::getMajorGroup);
-        schoolScoreMap.put("subjectRequirements", SchoolScore::getSubjectRequirements);
+        schoolScoreMap.put("admission_batch", SchoolScore::getAdmissionBatch);
+        schoolScoreMap.put("enrollment_type", SchoolScore::getEnrollmentType);
+        schoolScoreMap.put("min_score_position", SchoolScore::getMinScorePosition);
+        schoolScoreMap.put("province_control_line", SchoolScore::getProvinceControlLine);
+        schoolScoreMap.put("major_group", SchoolScore::getMajorGroup);
+        schoolScoreMap.put("subject_requirements", SchoolScore::getSubjectRequirements);
 
-        subjectScoreMap.put("schoolId", SubjectScore::getSchoolId);
-        subjectScoreMap.put("schoolName", SubjectScore::getSchoolName);
+        subjectScoreMap.put("school_id", SubjectScore::getSchoolId);
+        subjectScoreMap.put("school_name", SubjectScore::getSchoolName);
         subjectScoreMap.put("city", SubjectScore::getCity);
         subjectScoreMap.put("year", SubjectScore::getYear);
         subjectScoreMap.put("wenli", SubjectScore::getWenli);
         subjectScoreMap.put("pici", SubjectScore::getPici);
-        subjectScoreMap.put("subjectName", SubjectScore::getSubjectName);
-        subjectScoreMap.put("admissionBatch", SubjectScore::getAdmissionBatch);
-        subjectScoreMap.put("minScorePosition", SubjectScore::getMinScorePosition);
-        subjectScoreMap.put("subjectRequirements", SubjectScore::getSubjectRequirements);
+        subjectScoreMap.put("subject_name", SubjectScore::getSubjectName);
+        subjectScoreMap.put("admission_batch", SubjectScore::getAdmissionBatch);
+        subjectScoreMap.put("min_score_position", SubjectScore::getMinScorePosition);
+        subjectScoreMap.put("subject_requirements", SubjectScore::getSubjectRequirements);
     }
 
     public static <T> List<T> executeQuery(BaseMapper<T> mapper, List<String> conditions, List<String> fields, Supplier<Map<String, SFunction<T, ?>>> fieldMapSupplier) {
         if (CollectionUtils.isEmpty(fields) || CollectionUtils.isEmpty((conditions))) {
-            throw new RuntimeException("查询条件不能为空");
+            throw new RuntimeException("QueryUtils: fields or conditions is empty");
         }
         // List<String> fields 转换为 SFunction<T, ?>[] fieldSelectors
         // 通过传递的 Supplier 获取对应的映射

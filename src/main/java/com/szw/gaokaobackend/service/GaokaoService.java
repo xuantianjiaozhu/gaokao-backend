@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface GaokaoService {
 
+    String chatProcess(String prompt);
+
     QueryResult getInfoForLLM(List<QueryParam> queryParamList);
 }
