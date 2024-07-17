@@ -1,4 +1,4 @@
-package com.seu.gaokaobackend.model;
+package com.seu.gaokaobackend.model.dto;
 
 import com.seu.gaokaobackend.model.entity.EnrollmentPlan;
 import com.seu.gaokaobackend.model.entity.SchoolInfo;

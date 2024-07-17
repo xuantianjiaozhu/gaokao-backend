@@ -1,7 +1,7 @@
 package com.seu.gaokaobackend.service;
 
-import com.seu.gaokaobackend.model.QueryParam;
-import com.seu.gaokaobackend.model.QueryResult;
+import com.seu.gaokaobackend.model.dto.QueryParam;
+import com.seu.gaokaobackend.model.dto.QueryResult;
 
 import java.util.List;
 

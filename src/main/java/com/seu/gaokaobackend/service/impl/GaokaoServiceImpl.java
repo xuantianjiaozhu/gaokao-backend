@@ -1,8 +1,8 @@
 package com.seu.gaokaobackend.service.impl;
 
 import com.alibaba.fastjson2.JSON;
-import com.seu.gaokaobackend.model.QueryParam;
-import com.seu.gaokaobackend.model.QueryResult;
+import com.seu.gaokaobackend.model.dto.QueryParam;
+import com.seu.gaokaobackend.model.dto.QueryResult;
 import com.seu.gaokaobackend.service.*;
 import com.seu.gaokaobackend.util.QueryUtils;
 import lombok.extern.slf4j.Slf4j;

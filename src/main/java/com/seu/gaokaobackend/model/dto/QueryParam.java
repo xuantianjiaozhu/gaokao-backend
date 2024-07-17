@@ -1,4 +1,4 @@
-package com.seu.gaokaobackend.model;
+package com.seu.gaokaobackend.model.dto;
 
 import lombok.Data;
 
