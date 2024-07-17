@@ -1,4 +1,4 @@
-package com.seu.gaokaobackend.model;
+package com.seu.gaokaobackend.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;

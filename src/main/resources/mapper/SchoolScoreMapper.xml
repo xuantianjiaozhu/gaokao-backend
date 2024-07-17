@@ -4,14 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.seu.gaokaobackend.mapper.SchoolScoreMapper">
 
-    <resultMap id="BaseResultMap" type="com.seu.gaokaobackend.model.SchoolScore">
+    <resultMap id="BaseResultMap" type="com.seu.gaokaobackend.model.entity.SchoolScore">
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="schoolId" column="school_id" jdbcType="INTEGER"/>
             <result property="schoolName" column="school_name" jdbcType="VARCHAR"/>
             <result property="city" column="city" jdbcType="VARCHAR"/>
             <result property="year" column="year" jdbcType="INTEGER"/>
             <result property="wenli" column="wenli" jdbcType="VARCHAR"/>
-            <result property="admissionBatch" column="admission_batch" jdbcType="VARCHAR"/>
+            <result property="pici" column="pici" jdbcType="VARCHAR"/>
             <result property="enrollmentType" column="enrollment_type" jdbcType="VARCHAR"/>
             <result property="minScorePosition" column="min_score_position" jdbcType="VARCHAR"/>
             <result property="provinceControlLine" column="province_control_line" jdbcType="VARCHAR"/>
@@ -22,7 +22,7 @@
     <sql id="Base_Column_List">
         id,school_id,school_name,
         city,year,wenli,
-        admission_batch,enrollment_type,min_score_position,
+        pici,enrollment_type,min_score_position,
         province_control_line,major_group,subject_requirements
     </sql>
 </mapper>

@@ -1,6 +1,6 @@
 package com.seu.gaokaobackend.service;
 
-import com.seu.gaokaobackend.model.EnrollmentPlan;
+import com.seu.gaokaobackend.model.entity.EnrollmentPlan;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

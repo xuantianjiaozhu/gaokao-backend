@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
-import com.seu.gaokaobackend.model.EnrollmentPlan;
-import com.seu.gaokaobackend.model.SchoolInfo;
-import com.seu.gaokaobackend.model.SchoolScore;
-import com.seu.gaokaobackend.model.SubjectScore;
+import com.seu.gaokaobackend.model.entity.EnrollmentPlan;
+import com.seu.gaokaobackend.model.entity.SchoolInfo;
+import com.seu.gaokaobackend.model.entity.SchoolScore;
+import com.seu.gaokaobackend.model.entity.SubjectScore;
 
 import java.util.HashMap;
 import java.util.List;

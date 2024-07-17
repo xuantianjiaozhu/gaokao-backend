@@ -1,5 +1,9 @@
 package com.seu.gaokaobackend.model;
 
+import com.seu.gaokaobackend.model.entity.EnrollmentPlan;
+import com.seu.gaokaobackend.model.entity.SchoolInfo;
+import com.seu.gaokaobackend.model.entity.SchoolScore;
+import com.seu.gaokaobackend.model.entity.SubjectScore;
 import lombok.Data;
 
 import java.util.List;

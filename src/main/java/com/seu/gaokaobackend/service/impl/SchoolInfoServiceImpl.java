@@ -2,7 +2,7 @@ package com.seu.gaokaobackend.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.seu.gaokaobackend.service.SchoolInfoService;
-import com.seu.gaokaobackend.model.SchoolInfo;
+import com.seu.gaokaobackend.model.entity.SchoolInfo;
 import com.seu.gaokaobackend.mapper.SchoolInfoMapper;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.seu.gaokaobackend.service;
 
-import com.seu.gaokaobackend.model.SubjectScore;
+import com.seu.gaokaobackend.model.entity.SubjectScore;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

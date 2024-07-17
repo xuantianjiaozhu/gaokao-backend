@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.seu.gaokaobackend.mapper.EnrollmentPlanMapper">
 
-    <resultMap id="BaseResultMap" type="com.seu.gaokaobackend.model.EnrollmentPlan">
+    <resultMap id="BaseResultMap" type="com.seu.gaokaobackend.model.entity.EnrollmentPlan">
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="schoolId" column="school_id" jdbcType="INTEGER"/>
             <result property="schoolName" column="school_name" jdbcType="VARCHAR"/>
