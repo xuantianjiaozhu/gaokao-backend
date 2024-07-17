@@ -51,12 +51,6 @@ public class SubjectScore implements Serializable {
     private String wenli;
 
     /**
-     * 批次
-     */
-    @TableField(value = "pici")
-    private String pici;
-
-    /**
      * 专业名称
      */
     @TableField(value = "subject_name")
@@ -65,8 +59,8 @@ public class SubjectScore implements Serializable {
     /**
      * 录取批次
      */
-    @TableField(value = "admission_batch")
-    private String admissionBatch;
+    @TableField(value = "pici")
+    private String pici;
 
     /**
      * 最低分/最低位次

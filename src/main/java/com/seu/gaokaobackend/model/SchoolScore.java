@@ -53,8 +53,8 @@ public class SchoolScore implements Serializable {
     /**
      * 录取批次
      */
-    @TableField(value = "admission_batch")
-    private String admissionBatch;
+    @TableField(value = "pici")
+    private String pici;
 
     /**
      * 招生类型
