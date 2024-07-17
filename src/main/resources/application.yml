@@ -9,9 +9,6 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/gaokao?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
     username: szw
     password: 123456
-  mvc:
-    servlet:
-      path: /
 
 server:
   port: 3002
@@ -23,11 +20,9 @@ logging:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-  global-config:
-    db-config:
-      # 字段上可不加 @TableLogic
-      logic-delete-field: is_delete
-      # 可以不写，默认就这样
-      logic-delete-value: 1
-      logic-not-delete-value: 0
   mapper-locations: classpath:mapper/*.xml
+
+
+llm:
+  host: http://127.0.0.1:11434
+  path: /api/chat

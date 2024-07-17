@@ -7,8 +7,12 @@ import com.seu.gaokaobackend.service.*;
 import com.seu.gaokaobackend.util.QueryUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Service
@@ -24,17 +28,42 @@ public class GaokaoServiceImpl implements GaokaoService {
     @Autowired
     private SubjectScoreService subjectScoreService;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Value("${llm.host}")
+    private String llmHost;
+
+    @Value("${llm.path}")
+    private String llmPath;
+
+    private static String promptTemplateFirst;
+    private static String promptTemplateSecond;
+    static {
+        ClassPathResource promptFirstResource = new ClassPathResource("prompt_template_first.txt");
+        ClassPathResource promptSecondResource = new ClassPathResource("prompt_template_second.txt");
+        try {
+            promptTemplateFirst = promptFirstResource.getContentAsString(StandardCharsets.UTF_8);
+            promptTemplateSecond = promptSecondResource.getContentAsString(StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            log.error("File not exist", e);
+        }
+    }
 
     @Override
     public String chatProcess(String prompt) {
-        // TODO: 根据 prompt 获取到 queryParamList 的 json
-        String queryParamListJson = "[]";
-        List<QueryParam> queryParamList = JSON.parseArray(queryParamListJson, QueryParam.class);
-        QueryResult queryResult = getInfoForLLM(queryParamList);
-        String queryResultJson = JSON.toJSONString(queryResult);
-        // TODO: 将 queryResultJson 返回给 LLM
-
-        return "";
+        String promptWithTemplateFirst = promptTemplateFirst + prompt;
+        String llmRequestUrl = llmHost + llmPath;
+        String llmResponse = restTemplate.postForObject(llmRequestUrl, promptWithTemplateFirst, String.class);
+        if (needSql(llmResponse)) {
+            List<QueryParam> queryParamList = JSON.parseArray(llmResponse, QueryParam.class);
+            QueryResult queryResult = getInfoForLLM(queryParamList);
+            String queryResultJson = JSON.toJSONString(queryResult);
+            String promptWithTemplateSecond = promptTemplateSecond.replace("\\\\\n\\\\\n\\\\\n", queryResultJson) + prompt;
+            return restTemplate.postForObject(llmRequestUrl, promptWithTemplateSecond, String.class);
+        } else {
+            return llmResponse;
+        }
     }
 
     @Override
@@ -84,5 +113,9 @@ public class GaokaoServiceImpl implements GaokaoService {
             }
         }
         return result;
+    }
+
+    private static boolean needSql(String response) {
+        return response.charAt(0) == '[';
     }
 }
