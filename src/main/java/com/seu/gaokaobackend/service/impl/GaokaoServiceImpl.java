@@ -69,8 +69,10 @@ public class GaokaoServiceImpl implements GaokaoService {
                     Assert.notNull(first, "first is null");
                     String firstContent = getContent(first);
                     if (needSql(firstContent)) {
+                        StringBuilder sb = new StringBuilder();
                         return flux.collectList().flatMapMany(list -> {
-                            List<QueryParam> queryParamList = JSON.parseArray(JSON.toJSONString(list), QueryParam.class);
+                            list.forEach(e -> sb.append(getContent(e)));
+                            List<QueryParam> queryParamList = JSON.parseArray(sb.toString(), QueryParam.class);
                             QueryResult queryResult = getInfoForLLM(queryParamList);
                             String queryResultJson = JSON.toJSONString(queryResult);
                             String promptWithTemplateSecond = promptTemplateSecond
