@@ -42,7 +42,7 @@ public class GaokaoController {
         return sse;
     }
 
-    @GetMapping("/closeSse")
+    @GetMapping("/close-sse")
     public Result<Void> closeSse(@RequestParam String uuid) {
         log.info("close sse, uuid:{}", uuid);
         if (Objects.nonNull(sseEmitterMap.get(uuid))) {

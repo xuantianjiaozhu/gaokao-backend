@@ -59,7 +59,7 @@ public class GaokaoServiceImpl implements GaokaoService {
             List<QueryParam> queryParamList = JSON.parseArray(llmResponse, QueryParam.class);
             QueryResult queryResult = getInfoForLLM(queryParamList);
             String queryResultJson = JSON.toJSONString(queryResult);
-            String promptWithTemplateSecond = promptTemplateSecond.replace("\\\\\n\\\\\n\\\\\n", queryResultJson) + prompt;
+            String promptWithTemplateSecond = promptTemplateSecond.replace("\n\n\n\n", String.format("\n\n%s\n\n", queryResultJson)) + prompt;
             return restTemplate.postForObject(llmRequestUrl, promptWithTemplateSecond, String.class);
         } else {
             return llmResponse;
