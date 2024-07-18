@@ -84,6 +84,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
+
+		<!-- Dependency for Netty's native MacOS DNS resolver -->
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-resolver-dns-native-macos</artifactId>
+			<version>4.1.108.Final</version>
+			<classifier>osx-aarch_64</classifier>
+		</dependency>
 	</dependencies>
 
 	<build>
