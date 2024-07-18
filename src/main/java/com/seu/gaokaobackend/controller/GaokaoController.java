@@ -15,7 +15,7 @@ public class GaokaoController {
     @Autowired
     private GaokaoService gaokaoService;
 
-    @PostMapping("/chat-process")
+    @PostMapping(value = "/chat-process", produces = "text/event-stream")
     public Flux<String> chatProcess(@RequestBody ChatRequest req) {
         return gaokaoService.chatProcess(req.getPrompt());
     }

@@ -13,6 +13,9 @@ import reactor.netty.http.client.HttpClient;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 针对 application/x-ndjson 响应类型的请求，必须用 WebClient，不能用 RestTemplate
+ */
 @Configuration
 public class WebClientConfiguration {
 
