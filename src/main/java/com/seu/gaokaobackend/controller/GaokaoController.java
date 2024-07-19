@@ -1,11 +1,15 @@
 package com.seu.gaokaobackend.controller;
 
 import com.seu.gaokaobackend.model.vo.ChatRequest;
+import com.seu.gaokaobackend.model.vo.ChatResponse;
+import com.seu.gaokaobackend.model.vo.Result;
 import com.seu.gaokaobackend.service.GaokaoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping
@@ -15,8 +19,16 @@ public class GaokaoController {
     @Autowired
     private GaokaoService gaokaoService;
 
-    @PostMapping(value = "/chat-process", produces = "text/event-stream")
-    public Flux<String> chatProcess(@RequestBody ChatRequest req) {
-        return gaokaoService.chatProcess(req.getPrompt());
+    private static final ConcurrentHashMap<String, String> SESSION_MAP = new ConcurrentHashMap<>();
+
+    @PostMapping("/start-chat-session")
+    public Result<Void> startChatSession(@RequestBody ChatRequest req) {
+        SESSION_MAP.put(req.getUuid(), req.getPrompt());
+        return Result.success();
+    }
+
+    @GetMapping(value = "/chat-process", produces = "text/event-stream")
+    public Flux<ChatResponse> chatProcess(@RequestParam String uuid) {
+        return gaokaoService.chatProcess(SESSION_MAP.get(uuid));
     }
 }

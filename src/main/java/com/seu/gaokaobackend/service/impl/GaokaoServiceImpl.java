@@ -2,6 +2,7 @@ package com.seu.gaokaobackend.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.seu.gaokaobackend.model.dto.*;
+import com.seu.gaokaobackend.model.vo.ChatResponse;
 import com.seu.gaokaobackend.service.*;
 import com.seu.gaokaobackend.util.QueryUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +57,7 @@ public class GaokaoServiceImpl implements GaokaoService {
     }
 
     @Override
-    public Flux<String> chatProcess(String prompt) {
+    public Flux<ChatResponse> chatProcess(String prompt) {
         String promptWithTemplateFirst = promptTemplateFirst + prompt;
         LlmRequest firstLlmRequest = adjustLlmRequest(promptWithTemplateFirst);
         return webClient.post()
@@ -83,10 +84,10 @@ public class GaokaoServiceImpl implements GaokaoService {
                                     .bodyValue(secondLlmRequest)
                                     .retrieve()
                                     .bodyToFlux(String.class)
-                                    .map(GaokaoServiceImpl::getContent);
+                                    .map(GaokaoServiceImpl::getChatResponse);
                         });
                     } else {
-                        return flux.map(GaokaoServiceImpl::getContent);
+                        return flux.map(GaokaoServiceImpl::getChatResponse);
                     }
                 });
     }
@@ -153,5 +154,10 @@ public class GaokaoServiceImpl implements GaokaoService {
 
     private static String getContent(String line) {
         return JSON.parseObject(line.trim(), LlmResponse.class).getMessage().getContent();
+    }
+
+    private static ChatResponse getChatResponse(String line) {
+        LlmResponse res = JSON.parseObject(line.trim(), LlmResponse.class);
+        return new ChatResponse(res.getDone(), res.getMessage().getContent());
     }
 }
