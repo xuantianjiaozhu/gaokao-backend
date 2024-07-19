@@ -46,8 +46,8 @@ public class GaokaoServiceImpl implements GaokaoService {
     private static String promptTemplateSecond;
 
     static {
-        ClassPathResource promptFirstResource = new ClassPathResource("prompt_template_first.txt");
-        ClassPathResource promptSecondResource = new ClassPathResource("prompt_template_second.txt");
+        ClassPathResource promptFirstResource = new ClassPathResource("prompt_template_first.md");
+        ClassPathResource promptSecondResource = new ClassPathResource("prompt_template_second.md");
         try {
             promptTemplateFirst = promptFirstResource.getContentAsString(StandardCharsets.UTF_8);
             promptTemplateSecond = promptSecondResource.getContentAsString(StandardCharsets.UTF_8);
