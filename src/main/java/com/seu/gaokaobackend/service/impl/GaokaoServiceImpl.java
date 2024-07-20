@@ -57,9 +57,9 @@ public class GaokaoServiceImpl implements GaokaoService {
     }
 
     @Override
-    public Flux<ChatResponse> chatProcess(String prompt) {
-        String promptWithTemplateFirst = promptTemplateFirst + prompt;
-        LlmRequest firstLlmRequest = adjustLlmRequest(promptWithTemplateFirst);
+    public Flux<ChatResponse> chatProcess(List<LlmMessage> messages, String province, String wenli, Integer score, Integer rank) {
+        String prompt = messages.getLast().getContent();
+        LlmRequest firstLlmRequest = adjustLlmRequest(messages, promptTemplateFirst, prompt);
         return webClient.post()
                 .uri(llmPath)
                 .bodyValue(firstLlmRequest)
@@ -76,9 +76,9 @@ public class GaokaoServiceImpl implements GaokaoService {
                             List<QueryParam> queryParamList = JSON.parseArray(sb.toString(), QueryParam.class);
                             QueryResult queryResult = getInfoForLLM(queryParamList);
                             String queryResultJson = JSON.toJSONString(queryResult);
-                            String promptWithTemplateSecond = promptTemplateSecond
-                                    .replace("\n\n\n\n", String.format("\n\n%s\n\n", queryResultJson)) + prompt;
-                            LlmRequest secondLlmRequest = adjustLlmRequest(promptWithTemplateSecond);
+                            String promptTemplateSecondWithJson = promptTemplateSecond
+                                    .replace("\n\n\n\n", String.format("\n\n%s\n\n", queryResultJson));
+                            LlmRequest secondLlmRequest = adjustLlmRequest(messages, promptTemplateSecondWithJson, prompt);
                             return webClient.post()
                                     .uri(llmPath)
                                     .bodyValue(secondLlmRequest)
@@ -141,10 +141,12 @@ public class GaokaoServiceImpl implements GaokaoService {
         return result;
     }
 
-    private LlmRequest adjustLlmRequest(String prompt) {
+    private LlmRequest adjustLlmRequest(List<LlmMessage> messages, String promptTemplate, String prompt) {
         LlmRequest res = new LlmRequest();
         res.setModel(llmModel);
-        res.setMessages(List.of(new LlmMessage(USER, prompt)));
+        LlmMessage lastMessage = messages.getLast();
+        lastMessage.setContent(promptTemplate + prompt);
+        res.setMessages(messages);
         return res;
     }
 

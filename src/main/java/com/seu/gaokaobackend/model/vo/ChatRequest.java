@@ -1,13 +1,22 @@
 package com.seu.gaokaobackend.model.vo;
 
+import com.seu.gaokaobackend.model.dto.LlmMessage;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class ChatRequest {
 
     private String uuid;
-    /**
-     * 客户端发送的问题参数
-     */
-    private String prompt;
+
+    private List<LlmMessage> messages;
+
+    private String province;
+
+    private String wenli;
+
+    private Integer score;
+
+    private Integer rank;
 }
