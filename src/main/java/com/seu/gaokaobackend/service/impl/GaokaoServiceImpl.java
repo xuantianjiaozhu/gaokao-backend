@@ -92,7 +92,9 @@ public class GaokaoServiceImpl implements GaokaoService {
                     } else {
                         return flux.map(GaokaoServiceImpl::getChatResponse);
                     }
-                });
+                })
+                .doOnError(e -> log.error("chat process error: {}", e.getMessage(), e))
+                .onErrorReturn(new ChatResponse(false, "服务器错误，请重试。"));
     }
 
     @Override
