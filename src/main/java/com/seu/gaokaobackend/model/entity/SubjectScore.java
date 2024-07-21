@@ -65,8 +65,8 @@ public class SubjectScore implements Serializable {
     /**
      * 最低分/最低位次
      */
-    @TableField(value = "min_score_position")
-    private String minScorePosition;
+    // @TableField(value = "min_score_position")
+    // private String minScorePosition;
 
     /**
      * 选科要求

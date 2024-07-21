@@ -49,7 +49,8 @@ public class QueryUtils {
         schoolScoreMap.put("wenli", SchoolScore::getWenli);
         schoolScoreMap.put("pici", SchoolScore::getPici);
         schoolScoreMap.put("enrollment_type", SchoolScore::getEnrollmentType);
-        schoolScoreMap.put("min_score_position", SchoolScore::getMinScorePosition);
+        schoolScoreMap.put("score", SchoolScore::getScore);
+        schoolScoreMap.put("position", SchoolScore::getPosition);
         schoolScoreMap.put("province_control_line", SchoolScore::getProvinceControlLine);
         schoolScoreMap.put("major_group", SchoolScore::getMajorGroup);
         schoolScoreMap.put("subject_requirements", SchoolScore::getSubjectRequirements);
@@ -61,7 +62,7 @@ public class QueryUtils {
         subjectScoreMap.put("wenli", SubjectScore::getWenli);
         subjectScoreMap.put("subject_name", SubjectScore::getSubjectName);
         subjectScoreMap.put("pici", SubjectScore::getPici);
-        subjectScoreMap.put("min_score_position", SubjectScore::getMinScorePosition);
+        // subjectScoreMap.put("min_score_position", SubjectScore::getMinScorePosition);
         subjectScoreMap.put("subject_requirements", SubjectScore::getSubjectRequirements);
     }
 

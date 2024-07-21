@@ -28,9 +28,9 @@ public class GaokaoController {
 
     @PostMapping("/start-chat-session")
     public Result<Void> startChatSession(@RequestBody ChatRequest req) {
-        // if (ObjectUtils.isNull(req.getProvince(), req.getWenli(), req.getScore(), req.getRank())) {
-        //     throw new BusinessException("同学你好，请先点击左下角设置按钮输入你的省份、文理选科、高考成绩、位次。");
-        // }
+        if (ObjectUtils.isNull(req.getProvince(), req.getWenli(), req.getScore(), req.getRank())) {
+            throw new BusinessException("同学你好，请先点击左下角设置按钮输入你的省份、文理选科、高考成绩、位次。");
+        }
         SESSION_MAP.put(req.getUuid(), req);
         return Result.success();
     }

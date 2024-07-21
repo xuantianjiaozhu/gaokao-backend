@@ -58,8 +58,10 @@ public class GaokaoServiceImpl implements GaokaoService {
     }
 
     @Override
-    public Flux<ChatResponse> chatProcess(String prompt, List<LlmMessage> historyMessages, String province, String wenli, Integer score, Integer rank) {
-        LlmRequest firstLlmRequest = adjustLlmRequest(historyMessages, promptTemplateFirst, prompt);
+    public Flux<ChatResponse> chatProcess(String prompt, List<LlmMessage> historyMessages,
+                                          String province, String wenli, Integer score, Integer rank) {
+        LlmRequest firstLlmRequest = adjustLlmRequest(historyMessages, promptTemplateFirst, prompt,
+                province, wenli, score, rank);
         log.info("first llm request is: {}", JSON.toJSONString(firstLlmRequest));
         return webClient.post()
                 .uri(llmPath)
@@ -78,9 +80,11 @@ public class GaokaoServiceImpl implements GaokaoService {
                             log.info("query param list is: {}", JSON.toJSONString(queryParamList));
                             QueryResult queryResult = getInfoForLLM(queryParamList);
                             String queryResultJson = JSON.toJSONString(queryResult);
-                            String promptTemplateSecondWithJson = promptTemplateSecond
+                            String promptTemplateSecondWithSqlResult = promptTemplateSecond
                                     .replace("\n\n\n\n", String.format("\n\n%s\n\n", queryResultJson));
-                            LlmRequest secondLlmRequest = adjustLlmRequest(historyMessages, promptTemplateSecondWithJson, prompt);
+                            LlmRequest secondLlmRequest = adjustLlmRequest(historyMessages,
+                                    promptTemplateSecondWithSqlResult, prompt,
+                                    province, wenli, score, rank);
                             log.info("second llm request is: {}", JSON.toJSONString(secondLlmRequest));
                             return webClient.post()
                                     .uri(llmPath)
@@ -146,12 +150,18 @@ public class GaokaoServiceImpl implements GaokaoService {
         return result;
     }
 
-    private LlmRequest adjustLlmRequest(List<LlmMessage> historyMessages, String promptTemplate, String prompt) {
+    private LlmRequest adjustLlmRequest(List<LlmMessage> historyMessages, String promptTemplate,
+                                        String prompt, String province, String wenli, Integer score, Integer rank) {
         LlmRequest res = new LlmRequest();
         res.setModel(llmModel);
         LlmMessage lastMessage = new LlmMessage();
-        lastMessage.setRole("user");
-        lastMessage.setContent(promptTemplate + prompt);
+        lastMessage.setRole(USER);
+        String promptWithTemplate = promptTemplate + prompt;
+        promptWithTemplate = promptWithTemplate.replace("`${province}`", province)
+                .replace("`${wenli}`", wenli)
+                .replace("`${score}`", score.toString())
+                .replace("`${rank}`", rank.toString());
+        lastMessage.setContent(promptWithTemplate);
         List<LlmMessage> historyMessagesCopy = new ArrayList<>(historyMessages);
         historyMessagesCopy.add(lastMessage);
         res.setMessages(historyMessagesCopy);

@@ -63,10 +63,16 @@ public class SchoolScore implements Serializable {
     private String enrollmentType;
 
     /**
-     * 最低分/最低位次
+     * 最低分
      */
-    @TableField(value = "min_score_position")
-    private String minScorePosition;
+    @TableField(value = "score")
+    private Integer score;
+
+    /**
+     * 最低位次
+     */
+    @TableField(value = "position")
+    private Integer position;
 
     /**
      * 省控线
