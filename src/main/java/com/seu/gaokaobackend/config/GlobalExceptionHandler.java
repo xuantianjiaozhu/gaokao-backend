@@ -1,5 +1,6 @@
 package com.seu.gaokaobackend.config;
 
+import com.seu.gaokaobackend.model.vo.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,8 +18,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = {Exception.class})
     @ResponseStatus(code = HttpStatus.I_AM_A_TEAPOT)
     @ResponseBody
-    public void exception(Exception e) {
+    public Result<String> exception(Exception e) {
         log.error("Global Exception:", e);
+        return Result.fail("服务器错误，请重试。");
     }
 
 }

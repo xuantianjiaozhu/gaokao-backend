@@ -10,7 +10,9 @@ public class ChatRequest {
 
     private String uuid;
 
-    private List<LlmMessage> messages;
+    private String prompt;
+
+    private List<LlmMessage> historyMessages;
 
     private String province;
 

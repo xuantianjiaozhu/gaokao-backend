@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface GaokaoService {
 
-    Flux<ChatResponse> chatProcess(List<LlmMessage> messages, String province, String wenli, Integer score, Integer rank);
+    Flux<ChatResponse> chatProcess(String prompt, List<LlmMessage> historyMessages, String province, String wenli, Integer score, Integer rank);
 
     QueryResult getInfoForLLM(List<QueryParam> queryParamList);
 }

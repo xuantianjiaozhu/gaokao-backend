@@ -1,5 +1,6 @@
 package com.seu.gaokaobackend.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.seu.gaokaobackend.model.dto.LlmMessage;
 import com.seu.gaokaobackend.model.vo.ChatRequest;
 import com.seu.gaokaobackend.model.vo.ChatResponse;
@@ -26,6 +27,9 @@ public class GaokaoController {
 
     @PostMapping("/start-chat-session")
     public Result<Void> startChatSession(@RequestBody ChatRequest req) {
+        // if (ObjectUtils.isNull(req.getProvince(), req.getWenli(), req.getScore(), req.getRank())) {
+        //     return Result.fail("同学你好，请先点击左下角设置按钮输入你的省份、文理选科、高考成绩、位次。");
+        // }
         SESSION_MAP.put(req.getUuid(), req);
         return Result.success();
     }
@@ -33,9 +37,10 @@ public class GaokaoController {
     @GetMapping(value = "/chat-process", produces = "text/event-stream")
     public Flux<ChatResponse> chatProcess(@RequestParam String uuid) {
         ChatRequest req = SESSION_MAP.get(uuid);
-        List<LlmMessage> messages = req.getMessages();
-        Assert.notNull(messages, "session not found");
+        String prompt = req.getPrompt();
+        List<LlmMessage> historyMessages = req.getHistoryMessages();
+        Assert.notNull(prompt, "prompt is null");
         SESSION_MAP.remove(uuid);
-        return gaokaoService.chatProcess(messages, req.getProvince(), req.getWenli(), req.getScore(), req.getRank());
+        return gaokaoService.chatProcess(prompt, historyMessages, req.getProvince(), req.getWenli(), req.getScore(), req.getRank());
     }
 }

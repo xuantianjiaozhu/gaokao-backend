@@ -15,6 +15,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -57,9 +58,9 @@ public class GaokaoServiceImpl implements GaokaoService {
     }
 
     @Override
-    public Flux<ChatResponse> chatProcess(List<LlmMessage> messages, String province, String wenli, Integer score, Integer rank) {
-        String prompt = messages.getLast().getContent();
-        LlmRequest firstLlmRequest = adjustLlmRequest(messages, promptTemplateFirst, prompt);
+    public Flux<ChatResponse> chatProcess(String prompt, List<LlmMessage> historyMessages, String province, String wenli, Integer score, Integer rank) {
+        LlmRequest firstLlmRequest = adjustLlmRequest(historyMessages, promptTemplateFirst, prompt);
+        log.info("first llm request is: {}", JSON.toJSONString(firstLlmRequest));
         return webClient.post()
                 .uri(llmPath)
                 .bodyValue(firstLlmRequest)
@@ -74,11 +75,13 @@ public class GaokaoServiceImpl implements GaokaoService {
                         return flux.collectList().flatMapMany(list -> {
                             list.forEach(e -> sb.append(getContent(e)));
                             List<QueryParam> queryParamList = JSON.parseArray(sb.toString(), QueryParam.class);
+                            log.info("query param list is: {}", JSON.toJSONString(queryParamList));
                             QueryResult queryResult = getInfoForLLM(queryParamList);
                             String queryResultJson = JSON.toJSONString(queryResult);
                             String promptTemplateSecondWithJson = promptTemplateSecond
                                     .replace("\n\n\n\n", String.format("\n\n%s\n\n", queryResultJson));
-                            LlmRequest secondLlmRequest = adjustLlmRequest(messages, promptTemplateSecondWithJson, prompt);
+                            LlmRequest secondLlmRequest = adjustLlmRequest(historyMessages, promptTemplateSecondWithJson, prompt);
+                            log.info("second llm request is: {}", JSON.toJSONString(secondLlmRequest));
                             return webClient.post()
                                     .uri(llmPath)
                                     .bodyValue(secondLlmRequest)
@@ -141,12 +144,15 @@ public class GaokaoServiceImpl implements GaokaoService {
         return result;
     }
 
-    private LlmRequest adjustLlmRequest(List<LlmMessage> messages, String promptTemplate, String prompt) {
+    private LlmRequest adjustLlmRequest(List<LlmMessage> historyMessages, String promptTemplate, String prompt) {
         LlmRequest res = new LlmRequest();
         res.setModel(llmModel);
-        LlmMessage lastMessage = messages.getLast();
+        LlmMessage lastMessage = new LlmMessage();
+        lastMessage.setRole("user");
         lastMessage.setContent(promptTemplate + prompt);
-        res.setMessages(messages);
+        List<LlmMessage> historyMessagesCopy = new ArrayList<>(historyMessages);
+        historyMessagesCopy.add(lastMessage);
+        res.setMessages(historyMessagesCopy);
         return res;
     }
 
