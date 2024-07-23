@@ -10,7 +10,7 @@
 
 你可能需要多张表的数据，因此你返回的 JSON 是一个数组。其中每个对象的 model 字段为表名；conditions 为数组，是查询条件，也就是 SQL 的 where 子句中的内容；fields 为数组，是你需要的表的字段。
 
-只要用户不针对一所学校查询过往几年的数据，school_score 表的 year 字段需要等于 2023、enrollment_plan 表的 year 字段需要等于 2024。wenli 字段不要出现在查询条件中，因为例如「物理类」、「理科」等都属于理科，你需要自己进行判断哪些专业属于用户能报考的。只有在用户询问具体一所学校的具体信息时，才要查询 school_info 表的 detail 字段。只有用户询问具体一所学校的招生计划时，才要查询 enrollment_plan 表。根据用户的位次进行查询时，大致在用户位次**正负 5000 **的学校可以选择（user_position - 5000 <= position <= user_position + 5000）。
+只要用户不针对一所学校查询过往几年的数据，school_score 表的 year 字段需要等于 2023、enrollment_plan 表的 year 字段需要等于 2024。school_score 表和 enrollment_plan 表的 wenli 字段：对于**理科**考生，查询条件为「wenli like '%理%' or wenli like '%综合%'」；对于文科考生，查询条件为「wenli not like '%理%'」。school_score 表的 score 字段**不要**出现在查询条件中，因为每一年的平均成绩都不一样，你需要根据位次来推荐用户可以报考的学校；根据用户的位次进行查询时，大致在用户位次**正负 5000 **的学校可以选择（user_position - 5000 <= position <= user_position + 5000）。只有用户在让你推荐学校时，才需要查询 school_score 表；用户在让你介绍学校时，才需要查询 school_info 表；用户问你学校的专业情况时，才需要查询 enrollment_plan 表。
 
 例如「用户 prompt」为「我在江苏省，选科是理科，高考成绩是 660 分，位次为 2500。东南大学我可以考上吗？我比较喜欢计算机方向的专业，有哪些适合我？」你的输出可以是：
 
@@ -22,7 +22,7 @@
       "school_name like '%东南大学%'",
       "city='江苏'",
       "year=2023",
-      "-2500 <= position <= 7500"
+      "0 <= position <= 7500"
     ],
     "fields": [
       "wenli",
