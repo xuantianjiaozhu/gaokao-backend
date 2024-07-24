@@ -76,7 +76,8 @@ public class GaokaoServiceImpl implements GaokaoService {
                         StringBuilder sb = new StringBuilder();
                         return flux.collectList().flatMapMany(list -> {
                             list.forEach(e -> sb.append(getContent(e)));
-                            List<QueryParam> queryParamList = JSON.parseArray(sb.toString(), QueryParam.class);
+                            String jsonString = removeMarkdownCodeBlock(sb.toString(), "json");
+                            List<QueryParam> queryParamList = JSON.parseArray(jsonString, QueryParam.class);
                             log.info("query param list is: {}", JSON.toJSONString(queryParamList));
                             QueryResult queryResult = getInfoForLLM(queryParamList);
                             String queryResultJson = JSON.toJSONString(queryResult);
@@ -169,7 +170,7 @@ public class GaokaoServiceImpl implements GaokaoService {
     }
 
     private static boolean needSql(String response) {
-        return response.charAt(0) == '[';
+        return response.charAt(0) == '[' || response.charAt(0) == '`';
     }
 
     private static String getContent(String line) {
@@ -179,5 +180,10 @@ public class GaokaoServiceImpl implements GaokaoService {
     private static ChatResponse getChatResponse(String line) {
         LlmResponse res = JSON.parseObject(line.trim(), LlmResponse.class);
         return new ChatResponse(res.getDone(), res.getMessage().getContent());
+    }
+
+    private static String removeMarkdownCodeBlock(String markdown, String language) {
+        // 去掉开头的 ```json 和结尾的 ```
+        return markdown.replaceAll("(?s)```" + language + "\\n(.*?)\\n```", "$1").trim();
     }
 }
