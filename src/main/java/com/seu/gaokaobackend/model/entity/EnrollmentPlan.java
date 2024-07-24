@@ -1,10 +1,13 @@
 package com.seu.gaokaobackend.model.entity;
 
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
@@ -24,12 +27,16 @@ public class EnrollmentPlan implements Serializable {
      * 学校的编号（url 里的）
      */
     @TableField(value = "school_id")
+    @JSONField(name = "school_id")
+    @JsonProperty("school_id")
     private Integer schoolId;
 
     /**
      * 学校名称
      */
     @TableField(value = "school_name")
+    @JSONField(name = "school_name")
+    @JsonProperty("school_name")
     private String schoolName;
 
     /**
@@ -60,18 +67,24 @@ public class EnrollmentPlan implements Serializable {
      * 专业名称
      */
     @TableField(value = "subject_name")
+    @JSONField(name = "subject_name")
+    @JsonProperty("subject_name")
     private String subjectName;
 
     /**
      * 计划招生
      */
     @TableField(value = "enrollment_number")
+    @JSONField(name = "enrollment_number")
+    @JsonProperty("enrollment_number")
     private String enrollmentNumber;
 
     /**
      * 学制
      */
     @TableField(value = "study_year")
+    @JSONField(name = "study_year")
+    @JsonProperty("study_year")
     private String studyYear;
 
     /**
@@ -84,5 +97,7 @@ public class EnrollmentPlan implements Serializable {
      * 选科要求
      */
     @TableField(value = "subject_requirements")
+    @JSONField(name = "subject_requirements")
+    @JsonProperty("subject_requirements")
     private String subjectRequirements;
 }

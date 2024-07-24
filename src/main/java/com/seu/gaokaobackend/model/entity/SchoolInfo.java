@@ -1,10 +1,13 @@
 package com.seu.gaokaobackend.model.entity;
 
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
@@ -24,12 +27,16 @@ public class SchoolInfo implements Serializable {
      * 学校的编号（url 里的）
      */
     @TableField(value = "school_id")
+    @JSONField(name = "school_id")
+    @JsonProperty("school_id")
     private Integer schoolId;
 
     /**
      * 学校名称
      */
     @TableField(value = "school_name")
+    @JSONField(name = "school_name")
+    @JsonProperty("school_name")
     private String schoolName;
 
     /**
