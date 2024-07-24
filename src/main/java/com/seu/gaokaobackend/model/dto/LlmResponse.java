@@ -9,9 +9,6 @@ import java.time.LocalDateTime;
 @Data
 public class LlmResponse {
     private String model;
-    @JsonProperty("created_at")
-    @JSONField(name = "created_at")
-    private LocalDateTime createdAt;
     private LlmMessage message;
     private String doneReason;
     private Boolean done;
